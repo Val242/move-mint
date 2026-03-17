@@ -10,11 +10,13 @@ export class UsersService {
 
    constructor(private readonly databaseService: DatabaseService){}
   async create(createUserDto: Prisma.UserCreateInput ) {
-    return 'This action adds a new user';
+    return this.databaseService.user.create({
+      data: createUserDto
+    })
   }
 
   findAll() {
-    return `This action returns all users`;
+    return `This action returns all users in your app`;
   }
 
   findOne(id: number) {

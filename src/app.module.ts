@@ -6,9 +6,10 @@ import { WorkoutsModule } from './workouts/workouts.module';
 import { ExercisesModule } from './exercises/exercises.module';
 import { CommentsModule } from './comments/comments.module';
 import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [UsersModule, WorkoutsModule, ExercisesModule, CommentsModule, DatabaseModule],
+  imports: [UsersModule, WorkoutsModule, ExercisesModule, CommentsModule, DatabaseModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

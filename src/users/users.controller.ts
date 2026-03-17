@@ -8,10 +8,12 @@ import { Prisma } from '@prisma/client/';
 export class UsersController {
   constructor(private readonly usersService:UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto) {
-    return this.usersService.create(createUserDto);
-  }
+  // @Post()
+  // create(@Body() createUserDto: Prisma.UserCreateInput) {
+  //   return this.usersService.create(createUserDto)({
+  //     data: createUserDto
+  //   })
+  // }
 
   @Get()
   findAll() {
@@ -33,3 +35,4 @@ export class UsersController {
     return this.usersService.remove(+id);
   }
 }
+
