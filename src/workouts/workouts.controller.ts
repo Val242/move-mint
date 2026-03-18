@@ -1,34 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { WorkoutsService } from './workouts.service';
-import { CreateWorkoutDto } from './dto/create-workout.dto';
-import { UpdateWorkoutDto } from './dto/update-workout.dto';
+import { Prisma } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('workouts')
+// @UseGuards(JwtAuthGuard)
 export class WorkoutsController {
   constructor(private readonly workoutsService: WorkoutsService) {}
 
   @Post()
-  create(@Body() createWorkoutDto: CreateWorkoutDto) {
-    return this.workoutsService.create(createWorkoutDto);
+  create(@Body() createWorkoutDto: Prisma.WorkoutCreateInput) {
+    return this.workoutsService.createWorkout(createWorkoutDto);
   }
 
   @Get()
-  findAll() {
-    return this.workoutsService.findAll();
+  findAll(@Query('status') status?: 'PENDING' | 'ACTIVE' | 'COMPLETED'  ) {
+    return this.workoutsService.findAllWorkouts(status);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.workoutsService.findOne(+id);
+    return this.workoutsService.findOneWorkout(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateWorkoutDto: UpdateWorkoutDto) {
-    return this.workoutsService.update(+id, updateWorkoutDto);
+  update(@Param('id') id: string, @Body() updateWorkoutDto: Prisma.WorkoutUpdateInput) {
+    return this.workoutsService.updateWorkout(+id, updateWorkoutDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.workoutsService.remove(+id);
+    return this.workoutsService.removeWorkout(+id);
   }
 }
