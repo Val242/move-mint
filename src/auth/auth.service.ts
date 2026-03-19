@@ -51,7 +51,7 @@ export class AuthService {
 
    async login(user: any) {
 
-    const payload = {sub: user.email, password: user.password}
+    const payload = {sub: user.id, email: user.email}
     const accessToken = this.jwtService.sign(payload,{
       expiresIn: '1h'
     })
@@ -67,5 +67,14 @@ export class AuthService {
       //   email: user.email
       // }
     }
+
+    
    
-  }}
+  }
+    async findUserById(id: number) {
+    return this.databaseService.user.findUnique({
+      where:{
+        id,
+      }
+    })}
+}

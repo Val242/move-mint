@@ -6,19 +6,23 @@ import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
+ 
   constructor(private authService: AuthService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET_KEY || 'your-secret-key-change-in-production',
+      secretOrKey: process.env.JWT_SECRET || 'defaultSecretKey',
     });
   }
 
-  async validate(email: string, password: string): Promise<any> {
-    const user = await this.authService.validateUser(email, password);
+  async validate(payload: any) {
+    const user = await this.authService.findUserById(payload.sub);
+    console.log(payload.sub)
+
     if (!user) {
       throw new UnauthorizedException();
     }
+
     return user;
   }
 }
