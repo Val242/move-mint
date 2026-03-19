@@ -1,0 +1,1 @@
+export const jwtConstant = 'JWT_SECRET_KEY' 

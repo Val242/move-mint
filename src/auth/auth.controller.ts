@@ -9,7 +9,7 @@ import { LocalStrategy } from './local.strategy';
 import { LocalAuthGuard } from './local-auth.guard';
 
 @Controller('auth')
- @UseGuards(LocalAuthGuard)
+@UseGuards(LocalAuthGuard)
 
 export class AuthController {
     constructor(private readonly authService: AuthService){}
