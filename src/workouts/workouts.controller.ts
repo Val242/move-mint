@@ -4,7 +4,7 @@ import { Prisma } from '@prisma/client';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('workouts')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class WorkoutsController {
   constructor(private readonly workoutsService: WorkoutsService) {}
 
