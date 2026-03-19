@@ -46,12 +46,12 @@ export class AuthService {
       if(!isPasswordValid){
         throw new UnauthorizedException("Invalid Password")
       }
-      return user
+      return user;
   }
 
-   async login( user: {id: number, email: string}) {
+   async login(user: any) {
 
-    const payload = {sub: user.id, email: user.email}
+    const payload = {sub: user.email, password: user.password}
     const accessToken = this.jwtService.sign(payload,{
       expiresIn: '1h'
     })
