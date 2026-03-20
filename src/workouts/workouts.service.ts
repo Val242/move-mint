@@ -24,7 +24,7 @@ export class WorkoutsService {
       return this.databaseService.workout.findMany()
   }
 
-  findOneWorkout(id: number) {
+  async findOneWorkout(id: number) {
     return this.databaseService.workout.findUnique({
       where:{
         id
@@ -32,8 +32,19 @@ export class WorkoutsService {
     })
   }
 
-  updateWorkout(id: number, updateWorkoutDto: Prisma.WorkoutUpdateInput) {
-    return this.databaseService.workout.update({
+  async updateWorkout(id: number, updateWorkoutDto: Prisma.WorkoutUpdateInput, userId:number) {
+  const workout = await this.databaseService.workout.findUnique({
+    where: { id: id }
+  });
+
+  if(!workout){
+    throw new NotFoundException('Work out not found')
+  }
+
+  if(workout.userId !== userId){
+    throw new ForbiddenException('You cannot update this workout')
+  }
+    return  this.databaseService.workout.update({
       where: {
         id
       },
@@ -42,7 +53,7 @@ export class WorkoutsService {
   }
 
   async removeWorkout(id: number, userId:number) {
-      const workout = await this.databaseService.workout.findUnique({
+  const workout = await this.databaseService.workout.findUnique({
     where: { id: id }
   });
 
