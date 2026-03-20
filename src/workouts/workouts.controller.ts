@@ -26,8 +26,9 @@ export class WorkoutsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateWorkoutDto: Prisma.WorkoutUpdateInput) {
-    return this.workoutsService.updateWorkout(+id, updateWorkoutDto);
+  update(@Param('id') id: string, @Body() updateWorkoutDto: Prisma.WorkoutUpdateInput, @Request() req) {
+    const userId = req.user.id
+    return this.workoutsService.updateWorkout(+id, updateWorkoutDto, userId);
   }
 
   @Delete(':id')
