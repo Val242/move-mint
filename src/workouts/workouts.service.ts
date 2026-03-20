@@ -6,9 +6,12 @@ import { Prisma } from '@prisma/client';
 export class WorkoutsService {
 
   constructor(private readonly databaseService: DatabaseService){}
-  createWorkout(createWorkoutDto: Prisma.WorkoutCreateInput) {
+  createWorkout(createWorkoutDto: Prisma.WorkoutCreateInput, userId: number) {
     return this.databaseService.workout.create({
-      data: createWorkoutDto
+      data:{ ...createWorkoutDto,
+        user: {
+          connect: {id:userId}
+        }}
     })
   }
 
