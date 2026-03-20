@@ -10,6 +10,7 @@ export class WorkoutsController {
 
   @Post()
   create(@Body() createWorkoutDto: Prisma.WorkoutCreateInput,@Request() req:any) {
+    console.log(req.user)
     const userId = req.user.id
     return this.workoutsService.createWorkout(createWorkoutDto, userId);
   }
@@ -30,7 +31,8 @@ export class WorkoutsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.workoutsService.removeWorkout(+id);
+  remove(@Param('id') id: string,@Request() req:any) {
+    const userId = req.user.id
+    return this.workoutsService.removeWorkout(+id, userId);
   }
 }

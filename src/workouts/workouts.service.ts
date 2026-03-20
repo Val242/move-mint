@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 import { Prisma } from '@prisma/client';
 
@@ -41,11 +41,24 @@ export class WorkoutsService {
     })
   }
 
-  removeWorkout(id: number) {
+  async removeWorkout(id: number, userId:number) {
+      const workout = await this.databaseService.workout.findUnique({
+    where: { id: id }
+  });
+
+  if(!workout){
+    throw new NotFoundException('Work out not found')
+  }
+
+  if(workout.userId !== userId){
+    throw new ForbiddenException('You cannot delete this workout')
+  }
+
     return this.databaseService.workout.delete({
       where:{
         id
-      }
+      },
+      
     })
   }
 }
