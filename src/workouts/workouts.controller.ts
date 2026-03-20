@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Request } from '@nestjs/common';
 import { WorkoutsService } from './workouts.service';
 import { Prisma } from '@prisma/client';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -9,8 +9,9 @@ export class WorkoutsController {
   constructor(private readonly workoutsService: WorkoutsService) {}
 
   @Post()
-  create(@Body() createWorkoutDto: Prisma.WorkoutCreateInput) {
-    return this.workoutsService.createWorkout(createWorkoutDto);
+  create(@Body() createWorkoutDto: Prisma.WorkoutCreateInput,@Request() req:any) {
+    const userId = req.user.id
+    return this.workoutsService.createWorkout(createWorkoutDto, userId);
   }
 
   @Get()
