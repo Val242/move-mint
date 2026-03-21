@@ -8,15 +8,17 @@ import { Prisma } from '@prisma/client';
 export class CommentsService {
  constructor(private readonly databaseService: DatabaseService){}
 
-  async addComment(workoutId: number | undefined, commentData: Prisma.CommentCreateInput, userId: number) {
+  async addComment(workoutId: number , commentData: Prisma.CommentCreateInput, userId: number) {
     return this.databaseService.comment.create({
       data:{ ...commentData,
               user: {
                 connect: {id:userId}
               },
               workout:{
-                connect: {id: workoutId}
-              }
+                connect:{id:workoutId}
+              },
+               updatedAt: new Date()
+              
             }
     });
   }
