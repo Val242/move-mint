@@ -15,14 +15,17 @@ export class WorkoutsService {
     })
   }
 
-  findAllWorkouts(status?: 'PENDING' | 'ACTIVE' | 'COMPLETED' ) {
-      if(status) return this.databaseService.workout.findMany({
+    findAllWorkouts(
+      userId: number,
+      status?: 'PENDING' | 'ACTIVE' | 'COMPLETED'
+    ) {
+      return this.databaseService.workout.findMany({
         where: {
-          status,
-        }
-      })
-      return this.databaseService.workout.findMany()
-  }
+          userId,
+          ...(status && { status }), // optional filter
+        },
+      });
+    }
 
   async findOneWorkout(id: number) {
     return this.databaseService.workout.findUnique({
@@ -72,4 +75,28 @@ export class WorkoutsService {
       
     })
   }
-}
+  // async addExercise(workoutId: number, exerciseData: Prisma.WorkoutExerciseCreateInput, userId: number) {
+  //   const workout = await this.databaseService.workout.findUnique({
+  //     where: { id: workoutId }
+  //   });
+
+  //   if(!workout){
+  //     throw new NotFoundException('Work out not found')
+  //   }
+
+  //   if(workout.userId !== userId){
+  //     throw new ForbiddenException('Invalid user.')
+  //   } 
+  //   return this.databaseService.workout.update({
+  //     where: { id: workoutId },
+  //     data: {
+  //       exercises: {
+  //         create: exerciseData
+  //       }
+  //     }
+  //   });
+  }
+
+ 
+
+
