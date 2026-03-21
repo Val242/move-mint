@@ -10,13 +10,20 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  @Post()
-  create(@Body() createCommentDto: Prisma.CommentCreateInput,@Request() req:any) {
-    // console.log(req)
-    const userId = req.user.id
-    const workId = createCommentDto.workout.connect?.id
-    return this.commentsService.addComment(workId,createCommentDto, userId);
-  }
+    @Post('/workouts/:id')
+    create(
+      @Param('id') workoutId: string,
+      @Body() commentData: any,
+      @Request() req: any
+    ) {
+      const userId = req.user.id;
+
+      return this.commentsService.addComment(
+        +workoutId,
+        commentData,
+        userId
+      );
+    }
 
   @Get()
   findAll() {
