@@ -15,10 +15,10 @@ export class WorkoutsController {
     return this.workoutsService.createWorkout(createWorkoutDto, userId);
   }
 
-  @Get()
-  findAll(@Query('status') status?: 'PENDING' | 'ACTIVE' | 'COMPLETED'  ) {
-    return this.workoutsService.findAllWorkouts(status);
-  }
+@Get()
+findAll(@Request() req: any, @Query('status') status?: 'PENDING' | 'ACTIVE' | 'COMPLETED') {
+  return this.workoutsService.findAllWorkouts(req.user.id, status);
+}
 
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -27,6 +27,8 @@ export class WorkoutsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateWorkoutDto: Prisma.WorkoutUpdateInput, @Request() req) {
+    console.log(req.user)
+    console.log(req.workout)
     const userId = req.user.id
     return this.workoutsService.updateWorkout(+id, updateWorkoutDto, userId);
   }
@@ -36,4 +38,10 @@ export class WorkoutsController {
     const userId = req.user.id
     return this.workoutsService.removeWorkout(+id, userId);
   }
+
+  //  @Patch(':id')
+  //  postComment(@Param('id') id: string, @Request() req:any){
+  //    const userId = req.user.id
+  //    return this.workoutsService.addComment(+id, userId)
+  //  }
 }
