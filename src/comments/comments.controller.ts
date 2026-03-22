@@ -36,8 +36,9 @@ export class CommentsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentsService.update(+id, updateCommentDto);
+  update(@Param('id') id: string, @Body() editCommentDto: Prisma.CommentUpdateInput, @Request() req) {
+    const userId = req.user.id
+    return this.commentsService.editComment(+id, editCommentDto, userId);
   }
 
   @Delete(':id')
