@@ -42,7 +42,8 @@ export class CommentsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.commentsService.remove(+id);
+  remove(@Param('id') id: string,@Request() req:any) {
+    const userId = req.user.id
+    return this.commentsService.removeWorkout(+id, userId);
   }
 }
