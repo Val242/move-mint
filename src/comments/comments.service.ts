@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { DatabaseService } from 'src/database/database.service';
@@ -31,8 +31,24 @@ export class CommentsService {
     return `This action returns a #${id} comment`;
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+    async editComment(id: number , editCommentDto: Prisma.CommentUpdateInput, userId: number){
+      const comment = await this.databaseService.comment.findUnique({
+        where:{id: id}
+      })
+        if(!comment){
+           throw new NotFoundException('Comment out not found')
+    }
+          if(comment.userId !== userId){
+    throw new ForbiddenException('You cannot update this comment')
+  }
+
+    return this.databaseService.comment.update({
+      where:{
+        id
+      },
+      data: editCommentDto
+    })
+
   }
 
   remove(id: number) {
