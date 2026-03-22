@@ -51,7 +51,24 @@ export class CommentsService {
 
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+   async removeWorkout(id: number, userId:number) {
+  const comment = await this.databaseService.comment.findUnique({
+    where: { id: id }
+  });
+
+  if(!comment){
+    throw new NotFoundException('Comment out not found')
+  }
+
+  if(comment.userId !== userId){
+    throw new ForbiddenException('You are not authorized to delete this comment')
+  }
+
+    return this.databaseService.comment.delete({
+      where:{
+        id
+      },
+      
+    })
   }
 }
