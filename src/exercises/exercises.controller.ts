@@ -1,16 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards } from '@nestjs/common';
 import { ExercisesService } from './exercises.service';
 import { CreateExerciseDto } from './dto/create-exercise.dto';
 import { UpdateExerciseDto } from './dto/update-exercise.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('exercises')
+@UseGuards(JwtAuthGuard)
 export class ExercisesController {
   constructor(private readonly exercisesService: ExercisesService) {}
 
-  @Post()
-  create(@Body() createExerciseDto: CreateExerciseDto) {
-    return this.exercisesService.addExercise(createExerciseDto);
-  }
+    @Post('/workouts/:id')
+    create(
+      @Param('id') workoutId: string,
+      @Body() commentData: any,
+    ) {
+
+      return this.exercisesService.addExercise(
+        commentData,
+        +workoutId,
+      );
+    }
 
   @Get()
   findAll() {

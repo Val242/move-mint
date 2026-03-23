@@ -2,14 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { CreateExerciseDto } from './dto/create-exercise.dto';
 import { UpdateExerciseDto } from './dto/update-exercise.dto';
 import { DatabaseService } from 'src/database/database.service';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ExercisesService {
 
   constructor(private readonly databaseService: DatabaseService){}
   
-  addExercise(create) {
-    return 'This action adds a new exercise';
+  addExercise(createExercise: Prisma.ExerciseCreateInput , workoutId: number) {
+    return this.databaseService.exercise.create({
+      data:{...createExercise,
+        workouts:{
+          connect: {id:workoutId}
+        }
+      }
+    })
   }
 
   findAll() {
