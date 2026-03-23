@@ -49,7 +49,8 @@ model Exercise{
   sets Int?
   notes String?
 
-  workouts Workout[]
+  workout   Workout  @relation(fields: [workoutId], references: [id])
+  workoutId Int
 }
 
 model Comment {
