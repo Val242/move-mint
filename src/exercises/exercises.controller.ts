@@ -14,7 +14,7 @@ export class ExercisesController {
       @Param('id') workoutId: string,
       @Body() commentData: any,
     ) {
-
+      console.log(`${workoutId} is the workout Id`)
       return this.exercisesService.addExercise(
         commentData,
         +workoutId,

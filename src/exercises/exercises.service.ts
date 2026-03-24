@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateExerciseDto } from './dto/create-exercise.dto';
 import { UpdateExerciseDto } from './dto/update-exercise.dto';
 import { DatabaseService } from 'src/database/database.service';
@@ -9,12 +9,24 @@ export class ExercisesService {
 
   constructor(private readonly databaseService: DatabaseService){}
   
-  addExercise(createExercise: Prisma.ExerciseCreateInput , workoutId: number) {
+  async addExercise(createExercise: Prisma.ExerciseCreateInput , workoutId: number) {
+      const workout =  await this.databaseService.workout.findUnique({
+        where:{id: workoutId}
+      })
+      console.log(`workout found in service is ${workout?.id}`)
+        if(!workout){
+           throw new BadRequestException('workout id is required')
+    }
+
+    console.log(createExercise)
+  
     return this.databaseService.exercise.create({
       data:{...createExercise,
-        workouts:{
-          connect: {id:workoutId}
-        }
+          workouts:{
+            connect:{
+              id:workoutId
+            }
+          }
       }
     })
   }

@@ -387,8 +387,7 @@ export const ModelName = {
   User: 'User',
   Workout: 'Workout',
   Exercise: 'Exercise',
-  Comment: 'Comment',
-  WorkoutExercise: 'WorkoutExercise'
+  Comment: 'Comment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -404,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "workout" | "exercise" | "comment" | "workoutExercise"
+    modelProps: "user" | "workout" | "exercise" | "comment"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -704,80 +703,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    WorkoutExercise: {
-      payload: Prisma.$WorkoutExercisePayload<ExtArgs>
-      fields: Prisma.WorkoutExerciseFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.WorkoutExerciseFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.WorkoutExerciseFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload>
-        }
-        findFirst: {
-          args: Prisma.WorkoutExerciseFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.WorkoutExerciseFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload>
-        }
-        findMany: {
-          args: Prisma.WorkoutExerciseFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload>[]
-        }
-        create: {
-          args: Prisma.WorkoutExerciseCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload>
-        }
-        createMany: {
-          args: Prisma.WorkoutExerciseCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.WorkoutExerciseCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload>[]
-        }
-        delete: {
-          args: Prisma.WorkoutExerciseDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload>
-        }
-        update: {
-          args: Prisma.WorkoutExerciseUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload>
-        }
-        deleteMany: {
-          args: Prisma.WorkoutExerciseDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.WorkoutExerciseUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.WorkoutExerciseUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload>[]
-        }
-        upsert: {
-          args: Prisma.WorkoutExerciseUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$WorkoutExercisePayload>
-        }
-        aggregate: {
-          args: Prisma.WorkoutExerciseAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateWorkoutExercise>
-        }
-        groupBy: {
-          args: Prisma.WorkoutExerciseGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WorkoutExerciseGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.WorkoutExerciseCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.WorkoutExerciseCountAggregateOutputType> | number
-        }
-      }
-    }
   }
 } & {
   other: {
@@ -850,7 +775,10 @@ export const ExerciseScalarFieldEnum = {
   duration: 'duration',
   reps: 'reps',
   sets: 'sets',
-  notes: 'notes'
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  workoutId: 'workoutId'
 } as const
 
 export type ExerciseScalarFieldEnum = (typeof ExerciseScalarFieldEnum)[keyof typeof ExerciseScalarFieldEnum]
@@ -866,16 +794,6 @@ export const CommentScalarFieldEnum = {
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
-
-
-export const WorkoutExerciseScalarFieldEnum = {
-  id: 'id',
-  workoutId: 'workoutId',
-  exerciseId: 'exerciseId',
-  order: 'order'
-} as const
-
-export type WorkoutExerciseScalarFieldEnum = (typeof WorkoutExerciseScalarFieldEnum)[keyof typeof WorkoutExerciseScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1090,7 +1008,6 @@ export type GlobalOmitConfig = {
   workout?: Prisma.WorkoutOmit
   exercise?: Prisma.ExerciseOmit
   comment?: Prisma.CommentOmit
-  workoutExercise?: Prisma.WorkoutExerciseOmit
 }
 
 /* Types for Logging */
