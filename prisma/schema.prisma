@@ -48,6 +48,8 @@ model Exercise{
   reps Int?
   sets Int?
   notes String?
+  // createdAt DateTime @default(now())
+  // updatedAt DateTime @updatedAt
 
   workout   Workout  @relation(fields: [workoutId], references: [id])
   workoutId Int
@@ -64,15 +66,6 @@ model Comment {
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
 }
-
-// model WorkoutExercise {
-//   id         Int      @id @default(autoincrement())
-//   workout    Workout  @relation(fields: [workoutId], references: [id])
-//   workoutId  Int
-//   exercise   Exercise @relation(fields: [exerciseId], references: [id])
-//   exerciseId Int
-//   order      Int?     // Optional: order of exercises in the workout
-// }
 
 enum Status{
   PENDING

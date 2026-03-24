@@ -54,8 +54,7 @@ export const ModelName = {
   User: 'User',
   Workout: 'Workout',
   Exercise: 'Exercise',
-  Comment: 'Comment',
-  WorkoutExercise: 'WorkoutExercise'
+  Comment: 'Comment'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -107,7 +106,10 @@ export const ExerciseScalarFieldEnum = {
   duration: 'duration',
   reps: 'reps',
   sets: 'sets',
-  notes: 'notes'
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  workoutId: 'workoutId'
 } as const
 
 export type ExerciseScalarFieldEnum = (typeof ExerciseScalarFieldEnum)[keyof typeof ExerciseScalarFieldEnum]
@@ -123,16 +125,6 @@ export const CommentScalarFieldEnum = {
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
-
-
-export const WorkoutExerciseScalarFieldEnum = {
-  id: 'id',
-  workoutId: 'workoutId',
-  exerciseId: 'exerciseId',
-  order: 'order'
-} as const
-
-export type WorkoutExerciseScalarFieldEnum = (typeof WorkoutExerciseScalarFieldEnum)[keyof typeof WorkoutExerciseScalarFieldEnum]
 
 
 export const SortOrder = {

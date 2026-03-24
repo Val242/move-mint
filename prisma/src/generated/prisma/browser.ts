@@ -37,8 +37,3 @@ export type Exercise = Prisma.ExerciseModel
  * 
  */
 export type Comment = Prisma.CommentModel
-/**
- * Model WorkoutExercise
- * 
- */
-export type WorkoutExercise = Prisma.WorkoutExerciseModel
